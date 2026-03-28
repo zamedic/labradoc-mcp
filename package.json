@@ -6,12 +6,12 @@
   "author": "Marc Arndt",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zamedic/labradoc-mcp.git"
+    "url": "git+https://github.com/zamedic/labradoc-mcp.git"
   },
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
-    "labradoc-mcp": "./dist/index.js"
+    "labradoc-mcp": "dist/index.js"
   },
   "files": [
     "dist/"
@@ -29,5 +29,9 @@
   },
   "engines": {
     "node": ">=20"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/zamedic/labradoc-mcp/issues"
+  },
+  "homepage": "https://github.com/zamedic/labradoc-mcp#readme"
 }
