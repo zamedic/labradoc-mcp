@@ -1,5 +1,5 @@
 {
-  "name": "@labradoc/mcp",
+  "name": "@zamedic/labradoc-mcp",
   "version": "1.0.0",
   "description": "MCP server for Labradoc — exposes files, email, tasks, user stats, and integrations as MCP tools",
   "license": "MIT",
