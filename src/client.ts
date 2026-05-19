@@ -2,20 +2,28 @@
 
 export interface File {
   id: string;
-  name: string;
-  status: "active" | "archived";
-  content_type?: string;
-  size?: number;
-  created_at?: string;
-  updated_at?: string;
+  user_id: string;
+  file_id: string;
+  source: string;
+  file_kind: string;
+  file_name: string;
+  status: string;
+  original_mime_type: string;
+  screenshots?: unknown;
+  page_count: number;
+  error: string;
+  recommend_file_name: string;
+  document_type: string;
+  created: string;
+  original_received: string;
+  hash: string;
+  hash_link?: string;
+  archived: boolean;
 }
 
 export interface FilesResponse {
-  items: File[];
-  page_size: number;
-  page_number: number;
-  total_pages: number;
-  total_items: number;
+  files: File[];
+  total: number;
 }
 
 export interface FilesListParams {
@@ -34,7 +42,7 @@ export interface EmailAddress {
 }
 
 export interface EmailAddressesResponse {
-  items: EmailAddress[];
+  email_addresses: EmailAddress[];
 }
 
 export interface EmailAddressCreateParams {
@@ -47,30 +55,27 @@ export interface Email {
   subject?: string;
   to?: string;
   body?: string;
-  received_at?: string;
-  attachments?: File[];
+  date?: string;
+  files?: string[];
 }
 
 export interface EmailsResponse {
-  items: Email[];
-  page_size: number;
-  page_number: number;
-  total_pages: number;
-  total_items: number;
+  emails: Email[];
 }
 
 export interface Task {
   id: string;
-  title?: string;
   description?: string;
   status?: string;
-  due_date?: string;
-  completed_at?: string;
-  created_at?: string;
+  dueDate?: string;
+  userID?: string;
+  fileID?: string;
+  type?: string;
+  createdAt?: string;
 }
 
 export interface TasksResponse {
-  items: Task[];
+  tasks: Task[];
 }
 
 export interface UserStats {
@@ -144,94 +149,96 @@ export class LabradocClient {
   async filesList(params: FilesListParams = {}): Promise<FilesResponse> {
     const ps = params.page_size ?? 50;
     const pn = params.page_number ?? 1;
-    let url = `${this.baseURL}/api/v4/files?page_size=${ps}&page_number=${pn}`;
+    let url = `${this.baseURL}/api/user/files?limit=${ps}&page=${pn}`;
     if (params.status) url += `&status=${params.status}`;
     if (params.query) url += `&query=${encodeURIComponent(params.query)}`;
     return this.request("GET", url);
   }
 
   async filesSearch(query: string): Promise<FilesResponse> {
-    const url = `${this.baseURL}/api/v4/files/search?q=${encodeURIComponent(query)}`;
+    const url = `${this.baseURL}/api/user/files?query=${encodeURIComponent(query)}`;
     return this.request("GET", url);
   }
 
   async fileGet(fileId: string): Promise<File> {
-    const url = `${this.baseURL}/api/v4/files/${encodeURIComponent(fileId)}`;
+    const url = `${this.baseURL}/api/user/files/${encodeURIComponent(fileId)}`;
     return this.request("GET", url);
   }
 
   async filesArchive(ids: string[]): Promise<void> {
-    const url = `${this.baseURL}/api/v4/files/archive`;
+    const url = `${this.baseURL}/api/user/files/archive`;
     await this.request("POST", url, { ids });
   }
 
   // Email addresses
   async emailAddressesList(): Promise<EmailAddressesResponse> {
-    const url = `${this.baseURL}/api/v4/email/addresses`;
+    const url = `${this.baseURL}/api/user/email-addresses`;
     return this.request("GET", url);
   }
 
   async emailAddressCreate(params: EmailAddressCreateParams = {}): Promise<EmailAddress> {
-    const url = `${this.baseURL}/api/v4/email/addresses`;
+    const url = `${this.baseURL}/api/user/email-addresses`;
     return this.request("POST", url, params);
   }
 
   // Emails
   async emailsList(): Promise<EmailsResponse> {
-    const url = `${this.baseURL}/api/v4/emails`;
+    const url = `${this.baseURL}/api/emails`;
     return this.request("GET", url);
   }
 
   // Tasks
   async tasksList(): Promise<TasksResponse> {
-    const url = `${this.baseURL}/api/v4/tasks`;
+    const url = `${this.baseURL}/api/tasks`;
     return this.request("GET", url);
   }
 
   async tasksClose(ids: string[]): Promise<void> {
-    const url = `${this.baseURL}/api/v4/tasks/close`;
+    const url = `${this.baseURL}/api/tasks/close`;
     await this.request("POST", url, { ids });
   }
 
   // User
   async userStats(): Promise<UserStats> {
-    const url = `${this.baseURL}/api/v4/users/me/stats`;
+    const url = `${this.baseURL}/api/user/stats`;
     return this.request("GET", url);
   }
 
   async billingCheckout(): Promise<BillingCheckoutResponse> {
-    const url = `${this.baseURL}/api/v4/billing/checkout`;
+    const url = `${this.baseURL}/api/billing/checkout`;
     return this.request("POST", url, {});
   }
 
   // Integrations
   async googleDriveStatus(): Promise<IntegrationStatus> {
-    const url = `${this.baseURL}/api/v4/integrations/google/drive/status`;
+    const url = `${this.baseURL}/api/integrations/google/drive/status`;
     return this.request("GET", url);
   }
 
   async googleDriveConnect(): Promise<BillingCheckoutResponse> {
-    const url = `${this.baseURL}/api/v4/integrations/google/drive/connect`;
+    const url = `${this.baseURL}/api/integrations/google/drive/connect`;
     return this.request("GET", url);
   }
 
   async googleGmailStatus(): Promise<IntegrationStatus> {
-    const url = `${this.baseURL}/api/v4/integrations/google/gmail/status`;
+    const url = `${this.baseURL}/api/integrations/google/gmail/status`;
     return this.request("GET", url);
   }
 
   async googleGmailConnect(): Promise<BillingCheckoutResponse> {
-    const url = `${this.baseURL}/api/v4/integrations/google/gmail/connect`;
+    const url = `${this.baseURL}/api/integrations/google/gmail/connect`;
     return this.request("GET", url);
   }
 
   async microsoftOutlookStatus(): Promise<IntegrationStatus> {
-    const url = `${this.baseURL}/api/v4/integrations/microsoft/outlook/status`;
+    const url = `${this.baseURL}/api/integrations/microsoft/outlook/status`;
     return this.request("GET", url);
   }
 
   async microsoftOutlookConnect(): Promise<BillingCheckoutResponse> {
-    const url = `${this.baseURL}/api/v4/integrations/microsoft/outlook/connect`;
+    const url = `${this.baseURL}/api/integrations/microsoft/outlook/connect`;
     return this.request("GET", url);
   }
 }
+
+export type Client = LabradocClient;

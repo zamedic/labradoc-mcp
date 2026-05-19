@@ -19,7 +19,7 @@ export async function emailAddressesList(client: Client) {
   try {
     const result = await client.emailAddressesList();
     return {
-      content: [{ type: "json" as const, text: JSON.stringify(result) }],
+      content: [{ type: "text" as const, text: JSON.stringify(result) }],
     };
   } catch (e) {
     return newErrorResult(e instanceof Error ? e.message : String(e));
@@ -30,7 +30,7 @@ export async function emailAddressCreate(client: Client, args: EmailAddressCreat
   try {
     const result = await client.emailAddressCreate({ description: args.description });
     return {
-      content: [{ type: "json" as const, text: JSON.stringify(result) }],
+      content: [{ type: "text" as const, text: JSON.stringify(result) }],
     };
   } catch (e) {
     return newErrorResult(e instanceof Error ? e.message : String(e));
@@ -41,7 +41,7 @@ export async function emailsList(client: Client) {
   try {
     const result = await client.emailsList();
     return {
-      content: [{ type: "json" as const, text: JSON.stringify(result) }],
+      content: [{ type: "text" as const, text: JSON.stringify(result) }],
     };
   } catch (e) {
     return newErrorResult(e instanceof Error ? e.message : String(e));

@@ -17,7 +17,7 @@ export function newErrorResult(msg: string) {
 export async function googleDriveStatus(client: Client) {
   try {
     const result = await client.googleDriveStatus();
-    return { content: [{ type: "json" as const, text: JSON.stringify(result) }] };
+    return { content: [{ type: "text" as const, text: JSON.stringify(result) }] };
   } catch (e) {
     return newErrorResult(e instanceof Error ? e.message : String(e));
   }
@@ -26,7 +26,7 @@ export async function googleDriveStatus(client: Client) {
 export async function googleDriveConnect(client: Client) {
   try {
     const result = await client.googleDriveConnect();
-    return { content: [{ type: "json" as const, text: JSON.stringify(result) }] };
+    return { content: [{ type: "text" as const, text: JSON.stringify(result) }] };
   } catch (e) {
     return newErrorResult(e instanceof Error ? e.message : String(e));
   }
@@ -35,7 +35,7 @@ export async function googleDriveConnect(client: Client) {
 export async function googleGmailStatus(client: Client) {
   try {
     const result = await client.googleGmailStatus();
-    return { content: [{ type: "json" as const, text: JSON.stringify(result) }] };
+    return { content: [{ type: "text" as const, text: JSON.stringify(result) }] };
   } catch (e) {
     return newErrorResult(e instanceof Error ? e.message : String(e));
   }
@@ -44,7 +44,7 @@ export async function googleGmailStatus(client: Client) {
 export async function googleGmailConnect(client: Client) {
   try {
     const result = await client.googleGmailConnect();
-    return { content: [{ type: "json" as const, text: JSON.stringify(result) }] };
+    return { content: [{ type: "text" as const, text: JSON.stringify(result) }] };
   } catch (e) {
     return newErrorResult(e instanceof Error ? e.message : String(e));
   }
@@ -53,7 +53,7 @@ export async function googleGmailConnect(client: Client) {
 export async function microsoftOutlookStatus(client: Client) {
   try {
     const result = await client.microsoftOutlookStatus();
-    return { content: [{ type: "json" as const, text: JSON.stringify(result) }] };
+    return { content: [{ type: "text" as const, text: JSON.stringify(result) }] };
   } catch (e) {
     return newErrorResult(e instanceof Error ? e.message : String(e));
   }
@@ -62,7 +62,7 @@ export async function microsoftOutlookStatus(client: Client) {
 export async function microsoftOutlookConnect(client: Client) {
   try {
     const result = await client.microsoftOutlookConnect();
-    return { content: [{ type: "json" as const, text: JSON.stringify(result) }] };
+    return { content: [{ type: "text" as const, text: JSON.stringify(result) }] };
   } catch (e) {
     return newErrorResult(e instanceof Error ? e.message : String(e));
   }

@@ -50,7 +50,7 @@ export async function filesList(client: Client, args: FilesListArgs) {
     query: args.query,
   });
   return {
-    content: [{ type: "json" as const, text: JSON.stringify(result) }],
+    content: [{ type: "text" as const, text: JSON.stringify(result) }],
   };
 }
 
@@ -58,7 +58,7 @@ export async function filesSearch(client: Client, args: FilesSearchArgs) {
   if (!args.query) return newErrorResult("missing required parameter: query");
   const result = await client.filesSearch(args.query);
   return {
-    content: [{ type: "json" as const, text: JSON.stringify(result) }],
+    content: [{ type: "text" as const, text: JSON.stringify(result) }],
   };
 }
 
@@ -67,7 +67,7 @@ export async function fileGet(client: Client, args: FileGetArgs) {
   try {
     const result = await client.fileGet(args.file_id);
     return {
-      content: [{ type: "json" as const, text: JSON.stringify(result) }],
+      content: [{ type: "text" as const, text: JSON.stringify(result) }],
     };
   } catch (e) {
     return newErrorResult(e instanceof Error ? e.message : String(e));

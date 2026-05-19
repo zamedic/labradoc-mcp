@@ -21,7 +21,7 @@ export async function tasksList(client: Client) {
   try {
     const result = await client.tasksList();
     return {
-      content: [{ type: "json" as const, text: JSON.stringify(result) }],
+      content: [{ type: "text" as const, text: JSON.stringify(result) }],
     };
   } catch (e) {
     return newErrorResult(e instanceof Error ? e.message : String(e));
